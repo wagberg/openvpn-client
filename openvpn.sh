@@ -229,8 +229,8 @@ shift $(( OPTIND - 1 ))
 
 [[ "${CERT_AUTH:-""}" ]] && cert_auth "$CERT_AUTH"
 [[ "${FIREWALL:-""}" || -e $route ]] && firewall "${FIREWALL:-""}"
-[[ "${ROUTE6:-""}" ]] && return_route6 "$ROUTE6"
-[[ "${ROUTE:-""}" ]] && return_route "$ROUTE"
+[[ "${ROUTE6:-""}" ]] && for net in ${ROUTE6//,/ }; do return_route6 "${net}"; done
+[[ "${ROUTE:-""}" ]] && for net in ${ROUTE//,/ }; do return_route "${net}";  done
 [[ "${VPN:-""}" ]] && eval vpn $(sed 's/^/"/; s/$/"/; s/;/" "/g' <<< $VPN)
 [[ "${DNS:-""}" ]] && dns
 [[ "${VPNPORT:-""}" ]] && vpnportforward "$VPNPORT"
